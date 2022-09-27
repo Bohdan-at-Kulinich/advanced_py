@@ -2,6 +2,7 @@
 
 from matplotlib import pyplot as plt 
 from matplotlib import animation 
+from random import uniform 
 
 # we accept positive and negative numbers for all params; the sign of ang_vel determines the direction of roatation
 class Particle:
@@ -111,11 +112,41 @@ def test_evolve():
     assert fequal(p2.y, -0.365227)
 
 
+# benchmark is a simple and representative use case that can be run to assess the running time of an application
+
+def benchmark():
+    # instantiate a thousand Particle objects with random coordinates and angular velocity
+    particles = [ 
+        Particle(uniform(-1.0, 1.0), uniform(-1.0, 1.0), uniform(-1.0, 1.0))
+        for i in range(1000)
+        ]
+
+    simulator = ParticleSimulator(particles)
+    simulator.evolve(0.1) 
+
+# Timing the benchmark through the Unix time command 
+# $ time python3 particle_simulator.py 
+# real: the actual time spent running from start to finish; includes I/O operations
+# user: the cumulative time spent by all CPUs during the computation
+# sys: the cumulative time spent by the CPUs during system-related tasks (memory allocation)
+
+# Another way of timing the benchmark is throug python timeit module (used in IPython terminal)
+"""" 
+$ ipython
+In [1]: from simul import benchmark
+In [2]: %timeit benchmark()
+"""
+
+# Using the script 
+# import timeit 
+# result = timeit.repeat('benchmark()', setup='from __main__ import benchmark', number=10, repeat=3)
 
 
 
 
-if __name__ == '__main__':
-    test_evolve() 
+
+
+#if __name__ == '__main__':
+ #   benchmark()
 
             
